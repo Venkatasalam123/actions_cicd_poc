@@ -20,7 +20,7 @@ jobs:
       with:
         # Directory that contains the Data Factory resources
         # Replace with your appropriate value
-        id: ${{ vars.ADF_DEV_RESOURCE_ID }}  # Store resource ID as a secret
+        id: ${{ secrets.ADF_DEV_RESOURCE_ID }}  # Store resource ID as a secret
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
