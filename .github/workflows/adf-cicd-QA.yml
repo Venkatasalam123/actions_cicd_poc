@@ -23,7 +23,7 @@ jobs:
         id: ${{ secrets.ADF_DEV_RESOURCE_ID }}  # Store resource ID as a secret
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v2
       with:
         name: ExportedArmTemplate
         path: ${{ steps.export.outputs.arm-template-directory }} #${{github.workspace}}/exported_templates  # Change the path as needed
