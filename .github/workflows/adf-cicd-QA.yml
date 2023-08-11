@@ -26,6 +26,49 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ExportedArmTemplate
+        name: adf-build-QA
         path: ${{ steps.export.outputs.arm-template-directory }} #${{github.workspace}}/exported_templates  # Change the path as needed
         if-no-files-found: error
+        
+# Download build artifact and deploy
+  publish:
+    needs: build
+
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: checkout-adf
+      uses: actions/checkout@v3
+
+    - name: download-build-artifact
+      uses: actions/download-artifact@v2.1.1
+      with:
+        # Artifact name
+        name: adf-build-QA
+        # Destination path
+        path: adf-build-QA
+
+    - name: azure-login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true
+
+    - name: data-factory-deploy
+      uses: Azure/data-factory-deploy-action@v1.2.0
+      with:
+        # Data Factory resource group name
+        resourceGroupName: ${{ vars.ADF_RG_NAME }}
+        # Data factory name
+        dataFactoryName: ${{ vars.ADF_FACTORY_NAME }}
+        # ARM template file name
+        armTemplateFile: adf-build-QA/ARMTemplateForFactory.json
+        # ARM template parameters file name
+        armTemplateParametersFile: adf/ArmTemplateParametersForFactory-QA.json
+        # Parameters which will be replaced in the ARM template
+        #additionalParameters: # optional, default is 
+        # Parameters which skip the Az module installation
+        #skipAzModuleInstallation: # optional, default is false
