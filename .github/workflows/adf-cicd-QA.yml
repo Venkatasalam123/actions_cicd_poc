@@ -27,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: adf-build-QA
-        path: ${{ steps.export.outputs.arm-template-directory }} #${{github.workspace}}/exported_templates  # Change the path as needed
+        path: armTemplate # ${{ steps.export.outputs.arm-template-directory }} #${{github.workspace}}/exported_templates  # Change the path as needed
         if-no-files-found: error
         
 # Download build artifact and deploy
