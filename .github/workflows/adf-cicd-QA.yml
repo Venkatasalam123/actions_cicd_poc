@@ -41,7 +41,7 @@ jobs:
         # Artifact name
         name: adf-build-QA
         # A file, directory or wildcard pattern that describes what to upload
-        path: adf/armTemplate
+        path: armTemplate
         if-no-files-found: error
         
   # Download build artifact and deploy
