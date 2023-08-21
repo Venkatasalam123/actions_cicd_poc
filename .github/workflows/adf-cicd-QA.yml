@@ -1,4 +1,4 @@
-name: export-arm-template
+name: export-arm-template-publish
 on:
   push:
     branches:
